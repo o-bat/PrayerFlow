@@ -2,15 +2,19 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:prayer_flow/screens/home_page.dart';
 import 'package:prayer_flow/screens/splash_screen.dart';
+import 'package:prayer_flow/services/notifications.dart';
 import 'package:prayer_flow/services/settings_provider.dart';
 import 'package:prayer_flow/services/stats_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
 
+void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
   tz.initializeTimeZones();
+  NotificationService().initNotifications();
+  
 
   runApp(
     MultiProvider(

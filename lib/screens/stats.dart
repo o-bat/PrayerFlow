@@ -30,11 +30,7 @@ class _StatsState extends State<Stats> {
   final Duration animDuration = const Duration(milliseconds: 250);
   int touchedIndex = -1;
   DateTime selectedDate = DateTime.now();
-  Map<String, bool> prayerStatus = Map.fromIterable(
-    PrayerTimes.names,
-    key: (item) => item as String,
-    value: (_) => false,
-  );
+  Map<String, bool> prayerStatus = { for (var item in PrayerTimes.names) item: false };
 
   List<double> getWeeklyData(Map<DateTime, int> dataMap) {
     List<double> weeklyData = List.filled(7, 0.0);
@@ -66,19 +62,27 @@ class _StatsState extends State<Stats> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton(
         onPressed: () => _showAddDataBottomSheet(),
-        label: const Text('Add Prayer Data'),
-        icon: const Icon(Icons.add),
+
+        child: const Icon(Icons.add),
       ),
       body: Consumer<StatsProvider>(
         builder: (context, stats, _) => Column(
           children: <Widget>[
-            Text(
-              'Prayer Times Stats',
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(onPressed: () {}, icon: Icon(Icons.arrow_left)),
+                Text(
+                  'Prayer Times Stats',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                IconButton(onPressed: () {}, icon: Icon(Icons.arrow_right)),
+              ],
             ),
             const SizedBox(height: 38),
             Expanded(flex: 4, child: BarChart(mainBarData())),
@@ -287,7 +291,7 @@ class _StatsState extends State<Stats> {
           ),
           borderRadius: BorderRadius.circular(12),
           color: isSelected
-              ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+              ? Theme.of(context).colorScheme.primary
               : null,
         ),
         child: Padding(
@@ -465,7 +469,6 @@ class _StatsState extends State<Stats> {
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             toY: 5,
-            color: Theme.of(context).colorScheme.surfaceVariant,
           ),
         ),
       ],
